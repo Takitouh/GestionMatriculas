@@ -8,18 +8,18 @@
 
 ## Etapa 1: Formulación
 - [x] Selección del caso (Caso 2: Sistema de gestión de matrículas académicas).
-- [ ] Redactar la descripción de la empresa / contexto organizacional.
-- [ ] Redactar el planteamiento del problema o necesidad.
-- [ ] Definir la justificación de la solución propuesta.
-- [ ] Redactar el Objetivo General.
-- [ ] Redactar los Objetivos Específicos.
-- [ ] Definir el alcance del proyecto.
+- [x] Redactar la descripción de la empresa / contexto organizacional.
+- [x] Redactar el planteamiento del problema o necesidad.
+- [x] Definir la justificación de la solución propuesta.
+- [x] Redactar el Objetivo General.
+- [x] Redactar los Objetivos Específicos.
+- [x] Definir el alcance del proyecto.
 
 ## Etapa 2: Análisis
-- [ ] Identificar actores y usuarios del sistema (Administrador, Funcionario Académico).
-- [ ] Listar los Requerimientos Funcionales (enfocados en gestión de estudiantes, asignaturas, grupos y matrículas).
-- [ ] Listar los Requerimientos No Funcionales.
-- [ ] Definir los Casos de Uso principales (especialmente el registro y consulta de matrículas).
+- [x] Identificar actores y usuarios del sistema (Administrador, Funcionario Académico).
+- [x] Listar los Requerimientos Funcionales (enfocados en gestión de estudiantes, asignaturas, grupos y matrículas).
+- [x] Listar los Requerimientos No Funcionales.
+- [x] Definir los Casos de Uso principales (especialmente el registro y consulta de matrículas).
 
 ## Etapa 3: Diseño
 - [ ] Elaborar Diagrama de Arquitectura o componentes de la aplicación.
