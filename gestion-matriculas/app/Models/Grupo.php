@@ -2,25 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Grupo extends Model
 {
-    protected $fillable = [
-        'asignatura_id',
-        'nombre_grupo',
-        'cupo_maximo',
-    ];
+    use HasFactory;
 
-    public function asignatura(): BelongsTo
+    // Conserva tus columnas existentes (ej. asignatura_id, codigo_grupo, docente, horario, salon, cupo_maximo)
+    protected $guarded = ['id'];
+
+    public function asignatura()
     {
         return $this->belongsTo(Asignatura::class);
     }
 
-    public function matriculas(): BelongsToMany
+    public function matriculas()
     {
-        return $this->belongsToMany(Matricula::class, 'grupo_matricula');
+        return $this->belongsToMany(Matricula::class, 'grupo_matricula')
+            ->withTimestamps();
+    }
+
+    // Helper para calcular cupos disponibles en tiempo real
+    public function cuposDisponibles(): int
+    {
+        $ocupados = $this->matriculas_count ?? $this->matriculas()->count();
+        return max(0, ($this->cupo_maximo ?? 30) - $ocupados);
     }
 }

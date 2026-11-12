@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Asignatura extends Model
 {
-    protected $fillable = [
-        'codigo',
-        'nombre',
-        'creditos',
-    ];
+    use HasFactory;
 
-    public function grupos(): HasMany
+    // Conserva tus columnas existentes (ej. codigo, nombre, creditos, semestre)
+    protected $guarded = ['id'];
+
+    public function grupos()
     {
         return $this->hasMany(Grupo::class);
     }
