@@ -46,6 +46,112 @@
     </div>
 </div>
 
+
+<!-- Estadísticas académicas -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-14">
+
+    <!-- Gráfica de matrículas -->
+    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <div class="mb-5">
+            <h3 class="text-lg font-bold text-slate-800">
+                Estado de las matrículas
+            </h3>
+            <p class="text-sm text-slate-500">
+                Distribución de matrículas registradas
+            </p>
+        </div>
+
+        <div class="relative h-64">
+            <canvas id="graficaMatriculas"></canvas>
+        </div>
+    </div>
+
+    <!-- Ocupación de grupos -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h3 class="text-lg font-bold text-slate-800">
+            Ocupación de grupos
+        </h3>
+
+        <p class="text-sm text-slate-500 mt-1">
+            Cupos ocupados frente a la capacidad total
+        </p>
+
+        <div class="mt-8">
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-3xl font-black text-indigo-600">
+                    {{ $porcentajeOcupacion }}%
+                </span>
+                <span class="text-xs text-slate-500">
+                    Ocupación
+                </span>
+            </div>
+
+            <div class="w-full bg-slate-100 rounded-full h-3">
+                <div
+                    class="bg-indigo-600 h-3 rounded-full transition-all"
+                    style="width: {{ min(100, $porcentajeOcupacion) }}%">
+                </div>
+            </div>
+
+            <div class="flex justify-between text-sm mt-4">
+                <span class="text-slate-500">Cupos ocupados</span>
+                <strong>{{ $cuposOcupados }}</strong>
+            </div>
+
+            <div class="flex justify-between text-sm mt-2">
+                <span class="text-slate-500">Capacidad total</span>
+                <strong>{{ $cuposTotales }}</strong>
+            </div>
+
+            <div class="flex justify-between text-sm mt-2">
+                <span class="text-slate-500">Cupos disponibles</span>
+                <strong class="text-emerald-600">
+                    {{ max(0, $cuposTotales - $cuposOcupados) }}
+                </strong>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- Periodo académico destacado -->
+<section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-14">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+        <div>
+            <p class="text-sm text-slate-500 font-medium">
+                Periodo académico destacado
+            </p>
+
+            @if ($periodoDestacado)
+                <h3 class="text-2xl font-bold text-indigo-700 mt-1">
+                    {{ $periodoDestacado->periodo_academico }}
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    {{ $periodoDestacado->total }}
+                    matrículas activas registradas
+                </p>
+            @else
+                <h3 class="text-lg font-semibold text-slate-700 mt-1">
+                    Sin matrículas activas
+                </h3>
+                <p class="text-sm text-slate-500 mt-1">
+                    Todavía no hay información para mostrar.
+                </p>
+            @endif
+        </div>
+
+        <a href="{{ route('matriculas.index') }}"
+           class="inline-flex justify-center items-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition">
+            Consultar matrículas
+        </a>
+
+    </div>
+</section>
+
+
 <!-- Modules Section -->
 <section id="modulos" class="scroll-mt-24">
     <div class="flex items-center justify-between mb-8">
@@ -92,5 +198,53 @@
 
     </div>
 </section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const contexto = document.getElementById('graficaMatriculas');
+
+    new Chart(contexto, {
+        type: 'doughnut',
+
+        data: {
+            labels: ['Activas', 'Canceladas'],
+
+            datasets: [{
+                data: [
+                    {{ $matriculasActivas }},
+                    {{ $matriculasCanceladas }}
+                ],
+
+                backgroundColor: [
+                    '#10b981',
+                    '#f59e0b'
+                ],
+
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                }
+            },
+
+            cutout: '65%'
+        }
+    });
+</script>
+
 
 @endsection

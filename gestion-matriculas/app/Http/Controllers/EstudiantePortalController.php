@@ -38,15 +38,16 @@ class EstudiantePortalController extends Controller
 
         // Oferta académica con buscador
         $busqueda = $request->input('buscar');
+
         $gruposDisponibles = Grupo::with('asignatura')
-            ->withCount('matriculas')
-            ->when($busqueda, function ($query, $busqueda) {
-                $query->whereHas('asignatura', function ($q) use ($busqueda) {
-                    $q->where('nombre', 'like', "%{$busqueda}%")
-                      ->orWhere('codigo', 'like', "%{$busqueda}%");
-                })->orWhere('docente', 'like', "%{$busqueda}%");
-            })
-            ->get();
+         ->withCount('matriculas')
+          ->when($busqueda, function ($query, $busqueda) {
+         $query->whereHas('asignatura', function ($q) use ($busqueda) {
+            $q->where('nombre', 'like', "%{$busqueda}%")
+              ->orWhere('codigo', 'like', "%{$busqueda}%");
+        });
+    })
+    ->get();
 
         return view('estudiante.dashboard', [
             'estudiante'              => $estudiante,
