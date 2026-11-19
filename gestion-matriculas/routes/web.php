@@ -10,6 +10,7 @@ use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstudiantePortalController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\PanelAcademicoController;
 
 // Rutas Públicas (Invitados)
 Route::middleware('guest')->group(function () {
@@ -48,9 +49,13 @@ Route::middleware('auth')->group(function () {
 
     // Panel Administrativo (CRUDs protegidos solo para rol admin)
     Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::resource('estudiantes', EstudianteController::class);
-        Route::resource('asignaturas', AsignaturaController::class);
-        Route::resource('grupos', GrupoController::class);
-        Route::resource('matriculas', MatriculaController::class);
+
+    Route::get('/panel-academico', [PanelAcademicoController::class, 'index'])
+        ->name('panel-academico.index');
+
+    Route::resource('estudiantes', EstudianteController::class);
+    Route::resource('asignaturas', AsignaturaController::class);
+    Route::resource('grupos', GrupoController::class);
+    Route::resource('matriculas', MatriculaController::class);
     });
 });

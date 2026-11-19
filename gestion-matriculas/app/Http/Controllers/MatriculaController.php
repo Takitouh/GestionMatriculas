@@ -7,15 +7,33 @@ use App\Models\Estudiante;
 use App\Models\Grupo;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
+use Illuminate\Http\Request;
 
 class MatriculaController extends Controller
 {
-    public function index()
-    {
-        // Traemos las matrículas con sus relaciones para evitar consultas N+1
-        $matriculas = Matricula::with(['estudiante', 'grupos'])->latest()->paginate(10);
-        return view('matriculas.index', compact('matriculas'));
+    public function index(Request $request)
+{
+    $opcionesPorPagina = [5, 10, 15, 25, 50];
+
+    $porPagina = (int) $request->query('per_page', 10);
+
+    if (!in_array($porPagina, $opcionesPorPagina, true)) {
+        $porPagina = 10;
     }
+
+    $matriculas = Matricula::with([
+        'estudiante',
+        'grupos.asignatura'
+    ])
+        ->latest()
+        ->paginate($porPagina)
+        ->appends(['per_page' => $porPagina]);
+
+    return view('matriculas.index', compact(
+        'matriculas',
+        'porPagina'
+    ));
+}
 
     public function create()
     {
