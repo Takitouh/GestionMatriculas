@@ -8,17 +8,43 @@ class StoreEstudianteRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Cambiar a lógica de roles cuando se agregue autenticación
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'documento_identidad' => 'required|string|unique:estudiantes,documento_identidad|max:20',
-            'nombres' => 'required|string|max:100',
-            'apellidos' => 'required|string|max:100',
-            'correo' => 'required|email|unique:estudiantes,correo|max:150',
-            'fecha_nacimiento' => 'required|date',
+            'documento_identidad' => [
+                'required',
+                'string',
+                'max:20',
+                'unique:estudiantes,documento_identidad',
+            ],
+
+            'nombres' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'apellidos' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'correo' => [
+                'required',
+                'email',
+                'max:150',
+                'unique:estudiantes,correo',
+                'unique:users,email',
+            ],
+
+            'fecha_nacimiento' => [
+                'required',
+                'date',
+            ],
         ];
     }
 }
