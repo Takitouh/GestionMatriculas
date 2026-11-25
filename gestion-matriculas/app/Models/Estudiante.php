@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Estudiante extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'documento_identidad',
@@ -34,7 +37,6 @@ class Estudiante extends Model
         return $this->hasMany(Matricula::class);
     }
 
-    // Helper opcional para mostrar el nombre completo fácilmente en las vistas
     public function getNombreCompletoAttribute(): string
     {
         return "{$this->nombres} {$this->apellidos}";
