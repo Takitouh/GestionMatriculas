@@ -23,12 +23,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])
         ->name('login.post');
 
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])
-        ->name('register');
-
-    Route::post('/register', [AuthController::class, 'register'])
-        ->name('register.post');
-
     // Reenviar enlace de activación
     Route::post('/activation/resend', [AuthController::class, 'resendActivation'])
         ->middleware('throttle:3,1')

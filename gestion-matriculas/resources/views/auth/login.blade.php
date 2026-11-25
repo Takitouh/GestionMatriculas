@@ -47,10 +47,6 @@
                 Ingresar al Sistema
             </button>
         </form>
-
-        <div class="mt-8 text-center text-sm text-slate-500">
-            ¿No tienes cuenta? <a href="{{ route('register') }}" class="text-indigo-600 font-bold hover:underline">Regístrate aquí</a>
-        </div>
     </div>
 </body>
 </html>
